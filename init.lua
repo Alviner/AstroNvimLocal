@@ -5,12 +5,6 @@
 -- normal format is "key = value". These also handle array like data structures
 -- where a value with no key simply has an implicit numeric key
 local config = {
-        updater = {
-                remote = "upstream",
-                remotes = {
-                        ["upstream"] = "Alviner/AstroNvim",
-                },
-        },
         colorscheme = "catppuccin",
         header = {
                 "",
@@ -46,6 +40,25 @@ local config = {
                 },
         },
         plugins = {
+                init = {
+                        ["catppuccin/nvim"] = { as = "catppuccin" },
+                        ["phaazon/hop.nvim"] = {
+                                as = "hop",
+                                branch = "v2",
+                                config = function() require("hop").setup { keys = "etovxqpdygfblzhckisuran" } end,
+                        },
+                        ["mfussenegger/nvim-dap-python"] = {
+                                config = function()
+                                        require("dap-python").test_runner = "pytest"
+                                        require("dap-python").resolve_python = function()
+                                                print "resolve"
+                                                return "python"
+                                        end
+                                        require("dap-python").setup "python"
+                                end,
+                                after = { "nvim-dap" },
+                        },
+                },
                 treesitter = { -- overrides `require("treesitter").setup(...)`
                         ensure_installed = { "lua", "python", "go", "vue", "javascript", "yaml", "json", "css", "hcl" },
                 },
