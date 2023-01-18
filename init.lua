@@ -5,94 +5,105 @@
 -- normal format is "key = value". These also handle array like data structures
 -- where a value with no key simply has an implicit numeric key
 local config = {
-        colorscheme = "catppuccin",
-        header = {
-                "",
-                "    ███    ██ ██    ██ ██ ███    ███",
-                "    ████   ██ ██    ██ ██ ████  ████",
-                "    ██ ██  ██ ██    ██ ██ ██ ████ ██",
-                "    ██  ██ ██  ██  ██  ██ ██  ██  ██",
-                "    ██   ████   ████   ██ ██      ██",
+  updater = {
+    channel = "nightly",
+    branch = "v3",
+  },
+  colorscheme = "catppuccin",
+  plugins = {
+    {
+      "nvim-treesitter/nvim-treesitter",
+      opts = {
+        ensure_installed = {
+          "lua",
+          "python",
+          "go",
+          "vue",
+          "javascript",
+          "yaml",
+          "json",
+          "css",
+          "hcl",
         },
+      },
+    },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      opts = {
+        ensure_installed = {
+          "sumneko_lua",
+          "gopls",
+          "clangd",
+          "html",
+          "jsonls",
+          "cssls",
+          "dockerls",
+          "marksman",
+          "terraformls",
+          "vuels",
+          "yamlls",
+        },
+      },
+    },
+    {
+      "jay-babu/mason-null-ls.nvim",
+      opts = {
 
-        -- Default theme configuration
-        default_theme = {
-                plugins = {
-                        aerial = true,
-                        beacon = false,
-                        bufferline = true,
-                        cmp = true,
-                        dashboard = true,
-                        highlighturl = true,
-                        hop = true,
-                        indent_blankline = true,
-                        lightspeed = true,
-                        ["neo-tree"] = true,
-                        notify = true,
-                        ["nvim-tree"] = false,
-                        ["nvim-web-devicons"] = true,
-                        rainbow = true,
-                        symbols_outline = true,
-                        telescope = true,
-                        treesitter = true,
-                        vimwiki = false,
-                        ["which-key"] = true,
-                },
+        ensure_installed = {
+          "prettier",
+          "stylua",
+          "clang_format",
+          "jq",
+          "markdownlint",
+          "mypy",
+          "vimt",
         },
-        plugins = {
-                init = {
-                        ["catppuccin/nvim"] = { as = "catppuccin" },
-                        ["phaazon/hop.nvim"] = {
-                                as = "hop",
-                                branch = "v2",
-                                config = function() require("hop").setup { keys = "etovxqpdygfblzhckisuran" } end,
-                        },
-                        ["mfussenegger/nvim-dap-python"] = {
-                                config = function()
-                                        require("dap-python").test_runner = "pytest"
-                                        require("dap-python").resolve_python = function()
-                                                print "resolve"
-                                                return "python"
-                                        end
-                                        require("dap-python").setup "python"
-                                end,
-                                after = { "nvim-dap" },
-                        },
-                },
-                treesitter = { -- overrides `require("treesitter").setup(...)`
-                        ensure_installed = { "lua", "python", "go", "vue", "javascript", "yaml", "json", "css", "hcl" },
-                },
-                -- use mason-lspconfig to configure LSP installations
-                ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
-                        ensure_installed = {
-                                "sumneko_lua",
-                                "gopls",
-                                "clangd",
-                                "html",
-                                "jsonls",
-                                "cssls",
-                                "dockerls",
-                                "marksman",
-                                "terraformls",
-                                "vuels",
-                                "yamlls",
-                        },
-                },
-                -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
-                ["mason-null-ls"] = { -- overrides `require("mason-null-ls").setup(...)`
-                        ensure_installed = { "prettier", "stylua", "clang_format", "jq", "markdownlint", "mypy", "vimt" },
-                },
-                ["mason-nvim-dap"] = { -- overrides `require("mason-nvim-dap").setup(...)`
-                        ensure_installed = { "python", "go" },
-                },
-                dapui = function(config) -- parameter is the default setup config table
-                        local dap = require "dap"
-                        dap.listeners.before.event_terminated["dapui_config"] = nil
-                        dap.listeners.before.event_exited["dapui_config"] = nil
+      },
+    },
+    {
+      "jay-babu/mason-nvim-dap.nvim",
+      opts = { -- overrides `require("mason-nvim-dap").setup(...)`
+        ensure_installed = { "python", "go" },
+      },
+    },
+    {
+      "catppuccin/nvim",
+      name = "catppuccin",
+    },
+    {
+      "phaazon/hop.nvim",
+      name = "hop",
+      branch = "v2",
+      config = function() require("hop").setup { keys = "etovxqpdygfblzhckisuran" } end,
+    },
+    {
+      "mfussenegger/nvim-dap-python",
+      config = function()
+        require("dap-python").test_runner = "pytest"
 
-                        return config
-                end,
-        },
+        require("dap-python").resolve_python = function() return "python" end
+
+        local pytest = require("dap-python").test_runners.pytest
+        require("dap-python").test_runners.pytest = function(...)
+          local module, args = pytest(...)
+          table.insert(args, "-vv")
+          return module, args
+        end
+        require("dap-python").setup "python"
+      end,
+      lazy = true,
+    },
+    {
+      "rcarriga/nvim-dap-ui",
+      config = function(plugin, opts)
+        plugin.default_config(opts)
+        local dap, dapui = require "dap", require "dapui"
+        dap.listeners.before.event_terminated["dapui_config"] = nil
+        dap.listeners.before.event_exited["dapui_config"] = nil
+        dapui.setup(opts)
+      end,
+    },
+  },
 }
 
 return config
