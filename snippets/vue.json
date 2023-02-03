@@ -1,0 +1,20 @@
+{
+  "setup": {
+    "prefix": [
+      "template"
+    ],
+    "body": [
+      "<template id='$1'>",
+      "\t$2",
+      "</template>",
+      "",
+      "<script>",
+      "export default {",
+      "\ttemplate: '#$1'",
+      "}",
+      "</script>",
+      ""
+    ],
+    "description": "My standard setup Vue3"
+  }
+}

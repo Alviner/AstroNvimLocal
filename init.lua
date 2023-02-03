@@ -94,13 +94,10 @@ local config = {
       lazy = true,
     },
     {
-      "rcarriga/nvim-dap-ui",
+      "L3MON4D3/LuaSnip",
       config = function(plugin, opts)
         plugin.default_config(opts)
-        local dap, dapui = require "dap", require "dapui"
-        dap.listeners.before.event_terminated["dapui_config"] = nil
-        dap.listeners.before.event_exited["dapui_config"] = nil
-        dapui.setup(opts)
+        require("luasnip.loaders.from_vscode").lazy_load { paths = { "./lua/user/snippets" } }
       end,
     },
   },
