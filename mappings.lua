@@ -8,7 +8,7 @@ if is_available "hop" then
 end
 
 if is_available "nvim-dap-python" then
-  maps.n["<leader>DT"] = { function() require("dap-python").test_method() end, desc = "Test method" }
-  maps.n["<leader>DC"] = { function() require("dap-python").test_class() end, desc = "Test class" }
+  maps.n["<leader>dt"] = { function() require("dap-python").test_method() end, desc = "Test method" }
+  maps.n["<leader>da"] = { function() require("dap-python").test_class() end, desc = "Test class" }
 end
 return maps
