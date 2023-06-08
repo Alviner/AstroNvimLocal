@@ -5,10 +5,6 @@
 -- normal format is "key = value". These also handle array like data structures
 -- where a value with no key simply has an implicit numeric key
 local config = {
-  updater = {
-    channel = "nightly",
-    branch = "v3",
-  },
   colorscheme = "catppuccin",
   plugins = {
     {
