@@ -27,7 +27,6 @@ local config = {
       "williamboman/mason-lspconfig.nvim",
       opts = {
         ensure_installed = {
-          "sumneko_lua",
           "gopls",
           "clangd",
           "html",
@@ -92,7 +91,7 @@ local config = {
     {
       "L3MON4D3/LuaSnip",
       config = function(plugin, opts)
-        plugin.default_config(opts)
+        require "plugins.configs.luasnip"(plugin, opts)
         require("luasnip.loaders.from_vscode").lazy_load { paths = { "./lua/user/snippets" } }
       end,
     },

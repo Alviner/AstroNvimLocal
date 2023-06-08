@@ -1,4 +1,5 @@
-local is_available = astronvim.is_available
+local utils = require "astronvim.utils"
+local is_available = utils.is_available
 
 local maps = { i = {}, n = {}, v = {}, t = {} }
 
