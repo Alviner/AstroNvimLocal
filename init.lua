@@ -72,6 +72,17 @@ local config = {
       config = function() require("hop").setup { keys = "etovxqpdygfblzhckisuran" } end,
     },
     {
+      "TobinPalmer/rayso.nvim",
+      name = "rayso",
+      config = function()
+        require("rayso").setup {
+          options = {
+            theme = "candy",
+          },
+        }
+      end,
+    },
+    {
       "mfussenegger/nvim-dap-python",
       config = function()
         require("dap-python").test_runner = "pytest"
