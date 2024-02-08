@@ -27,14 +27,11 @@ local config = {
       "williamboman/mason-lspconfig.nvim",
       opts = {
         ensure_installed = {
-          "gopls",
-          "clangd",
           "html",
           "jsonls",
           "cssls",
           "dockerls",
           "marksman",
-          "terraformls",
           "vuels",
           "yamlls",
         },
@@ -47,7 +44,6 @@ local config = {
         ensure_installed = {
           "prettier",
           "stylua",
-          "clang_format",
           "jq",
           "markdownlint",
           "mypy",
@@ -66,10 +62,18 @@ local config = {
       name = "catppuccin",
     },
     {
-      "phaazon/hop.nvim",
-      name = "hop",
-      branch = "v2",
-      config = function() require("hop").setup { keys = "etovxqpdygfblzhckisuran" } end,
+      "folke/flash.nvim",
+      name = "flash",
+      event = "VeryLazy",
+      opts = {
+        modes = {
+          treesitter_search = {
+            jump = { pos = "start" },
+            search = { incremental = true },
+          },
+        },
+      },
+      keys = {},
     },
     {
       "TobinPalmer/rayso.nvim",
@@ -81,6 +85,11 @@ local config = {
           },
         }
       end,
+    },
+    {
+      "github/copilot.vim",
+      cmd = "Copilot",
+      name = "copilot",
     },
     {
       "mfussenegger/nvim-dap-python",
